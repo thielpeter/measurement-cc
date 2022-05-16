@@ -16,8 +16,9 @@ return new class extends Migration
         Schema::create('measurements', function (Blueprint $table) {
             $table->id();
             $table->integer('co2');
-            $table->integer('sensor');
+            $table->string('uuid');
             $table->date('time');
+            $table->timestamps();
         });
     }
 

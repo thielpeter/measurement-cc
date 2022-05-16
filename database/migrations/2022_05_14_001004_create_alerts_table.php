@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('alerts', function (Blueprint $table) {
             $table->id();
-            $table->integer('sensor');
+            $table->string('uuid');
+            $table->integer('measurement_id');
             $table->timestamps();
         });
     }

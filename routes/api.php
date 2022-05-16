@@ -19,13 +19,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix' => 'api/v1', 'middleware' => 'throttle:1,1'], function () {
+Route::group(['prefix' => '/v1'], function () {
+//Route::group(['prefix' => '/v1', 'middleware' => 'throttle:1,1'], function () {
 
     Route::post('/sensors/{uuid}/measurements', [SensorsController::class, 'createMeasurement']);
 
 });
 
-Route::group(['prefix' => 'api/v1'], function () {
+Route::group(['prefix' => '/v1'], function () {
 
     Route::get('/sensors/{uuid}', [SensorsController::class, 'getStatus']);
     Route::get('/sensors/{uuid}/metrics', [SensorsController::class, 'getMetrics']);

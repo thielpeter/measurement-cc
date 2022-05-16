@@ -9,6 +9,8 @@ class Measurement extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['co2','time', 'uuid'];
+
     /**
      * Get the sensor associated with the measurement.
      */

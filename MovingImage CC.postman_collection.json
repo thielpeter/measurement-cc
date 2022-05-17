@@ -15,7 +15,7 @@
 					"formdata": [
 						{
 							"key": "co2",
-							"value": "1000",
+							"value": "2000",
 							"type": "default"
 						},
 						{
@@ -26,9 +26,9 @@
 					]
 				},
 				"url": {
-					"raw": "{url}/sensors/1/measurements",
+					"raw": "{{url}}/sensors/1/measurements",
 					"host": [
-						"{url}"
+						"{{url}}"
 					],
 					"path": [
 						"sensors",

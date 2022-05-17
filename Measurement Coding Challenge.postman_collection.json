@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "a8e28b07-f549-48ad-b47d-4b72e9dee2bb",
-		"name": "MovingImage CC",
+		"name": "Measurement Coding Challenge",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -131,7 +131,7 @@
 	"variable": [
 		{
 			"key": "url",
-			"value": "moving-cc.local/api/v1",
+			"value": "measurement-cc.local/api/v1",
 			"type": "default"
 		}
 	]

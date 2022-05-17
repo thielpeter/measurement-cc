@@ -1,6 +1,6 @@
-# movingimage Coding Challenge
+# Measurement Coding Challenge
 
-This is the solution for the movingimage Coding Challenge provided by Peter Thiel.
+This is the solution for the Measurement Coding Challenge provided by Peter Thiel.
 
 ## Installation
 
@@ -20,7 +20,7 @@ For installation follow these steps:
 For evaluation use:
 
 - Swagger API at `//{domain}/api/documentation`
-- Postman Collection "MovingImage CC.postman_collection.json" attached
+- Postman Collection "Measurement Coding Challenge.postman_collection.json" attached
 - Run Tests with `php artisan test`
 
 Looking forward to your feedback at thiel.peter@gmail.com

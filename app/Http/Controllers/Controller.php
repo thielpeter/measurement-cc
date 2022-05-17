@@ -10,8 +10,8 @@ use Illuminate\Routing\Controller as BaseController;
 /**
  * @OA\Info(
  *      version="1.0.0",
- *      title="movingimage CC API",
- *      description="This is the movingimage CC API documentation.",
+ *      title="Measurement Coding Challenge API",
+ *      description="This is the Measurement Coding Challenge API documentation.",
  *      @OA\Contact(
  *          email="thiel.peter@gmail.com"
  *      ),
@@ -23,7 +23,7 @@ use Illuminate\Routing\Controller as BaseController;
  *
  * @OA\Server(
  *      url=L5_SWAGGER_CONST_HOST,
- *      description="movingimage CC API Server"
+ *      description="Measurement Coding Challenge API Server"
  * )
 
  *

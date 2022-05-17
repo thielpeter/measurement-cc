@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "movingimage CC API",
-        "description": "This is the movingimage CC API documentation.",
+        "title": "Measurement Coding Challenge API",
+        "description": "This is the Measurement Coding Challenge API documentation.",
         "contact": {
             "email": "thiel.peter@gmail.com"
         },
@@ -14,8 +14,8 @@
     },
     "servers": [
         {
-            "url": "//moving-cc.local/api/v1",
-            "description": "movingimage CC API Server"
+            "url": "//measurement-cc.local/api/v1",
+            "description": "Measurement Coding Challenge API Server"
         }
     ],
     "paths": {

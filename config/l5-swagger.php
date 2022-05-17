@@ -5,7 +5,7 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'movingimage CC API',
+                'title' => 'Measurement Coding Challenge API',
             ],
 
             'routes' => [

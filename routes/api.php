@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\SensorsController;
+use App\Http\Controllers\SensorsAPIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,15 +22,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['prefix' => '/v1'], function () {
 //Route::group(['prefix' => '/v1', 'middleware' => 'throttle:1,1'], function () {
 
-    Route::post('/sensors/{uuid}/measurements', [SensorsController::class, 'createMeasurement']);
+    Route::post('/sensors/{uuid}/measurements', [SensorsAPIController::class, 'createMeasurement']);
 
 });
 
 Route::group(['prefix' => '/v1'], function () {
 
-    Route::get('/sensors/{uuid}', [SensorsController::class, 'getStatus']);
-    Route::get('/sensors/{uuid}/metrics', [SensorsController::class, 'getMetrics']);
-    Route::get('/sensors/{uuid}/alerts', [SensorsController::class, 'getAlerts']);
+    Route::get('/sensors/{uuid}', [SensorsAPIController::class, 'getStatus']);
+    Route::get('/sensors/{uuid}/metrics', [SensorsAPIController::class, 'getMetrics']);
+    Route::get('/sensors/{uuid}/alerts', [SensorsAPIController::class, 'getAlerts']);
 
 });
 

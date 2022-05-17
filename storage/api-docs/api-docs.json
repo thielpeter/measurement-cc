@@ -1,0 +1,171 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "movingimage CC API",
+        "description": "This is the movingimage CC API documentation.",
+        "contact": {
+            "email": "thiel.peter@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://moving-cc.local/api/v1",
+            "description": "movingimage CC API Server"
+        }
+    ],
+    "paths": {
+        "/sensors/{uuid}": {
+            "get": {
+                "tags": [
+                    "Sensors"
+                ],
+                "summary": "Get status of a sensor",
+                "description": "Returns status of a sensor",
+                "operationId": "getStatus",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Sensor UUID",
+                        "required": true,
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        },
+        "/sensors/{uuid}/metrics": {
+            "get": {
+                "tags": [
+                    "Sensors"
+                ],
+                "summary": "Get metrics of a sensor",
+                "description": "Returns metrics of a sensor",
+                "operationId": "getMetrics",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Sensor UUID",
+                        "required": true,
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        },
+        "/sensors/{uuid}/alerts": {
+            "get": {
+                "tags": [
+                    "Sensors"
+                ],
+                "summary": "Get alerts of a sensor",
+                "description": "Returns alerts of a sensor",
+                "operationId": "getAlerts",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Sensor UUID",
+                        "required": true,
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        },
+        "/sensors/{uuid}/measurements": {
+            "post": {
+                "tags": [
+                    "Sensors"
+                ],
+                "summary": "Post measurement for a given sensor",
+                "description": "Creates a measurement for a given sensor",
+                "operationId": "postMeasurement",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Sensor UUID",
+                        "required": true,
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "co2",
+                        "in": "query",
+                        "description": "CO2 value of measurement",
+                        "required": true,
+                        "explode": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "time",
+                        "in": "query",
+                        "description": "Time of measurement",
+                        "required": true,
+                        "explode": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2022-05-17"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Sensors",
+            "description": "API Endpoints of Sensors"
+        }
+    ]
+}

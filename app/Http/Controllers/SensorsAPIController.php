@@ -8,9 +8,8 @@ use App\Models\Alert;
 use App\Models\Measurement;
 use App\Models\Sensor;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class SensorsController extends Controller
+class SensorsAPIController extends Controller
 {
     private $alertsController;
 
@@ -24,17 +23,69 @@ class SensorsController extends Controller
     }
 
     /**
-     * @param $uuid
-     * @return JsonResponse
+     * @OA\Get(
+     *      path="/sensors/{uuid}",
+     *      operationId="getStatus",
+     *      tags={"Sensors"},
+     *      summary="Get status of a sensor",
+     *      description="Returns status of a sensor",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="path",
+     *         description="Sensor UUID",
+     *         required=true,
+     *         explode=true,
+     *         @OA\Schema(
+     *              type="string"
+     *         )
+     *     ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found",
+     *      )
+     *     )
      */
     public function getStatus($uuid)
     {
-        return response()->json(Sensor::where(['uuid' => $uuid])->status);
+        $sensor = Sensor::where(['uuid' => $uuid])->first();
+        if ($sensor) {
+            return response()->json([
+                'status' => $sensor->status,
+            ]);
+        }
+        return response()->json('No sensor found', 404);
     }
 
     /**
-     * @param $uuid
-     * @return JsonResponse
+     * @OA\Get(
+     *      path="/sensors/{uuid}/metrics",
+     *      operationId="getMetrics",
+     *      tags={"Sensors"},
+     *      summary="Get metrics of a sensor",
+     *      description="Returns metrics of a sensor",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="path",
+     *         description="Sensor UUID",
+     *         required=true,
+     *         explode=true,
+     *         @OA\Schema(
+     *              type="string"
+     *         )
+     *     ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found",
+     *      )
+     *     )
      */
     public function getMetrics($uuid)
     {
@@ -52,8 +103,31 @@ class SensorsController extends Controller
     }
 
     /**
-     * @param $uuid
-     * @return JsonResponse
+     * @OA\Get(
+     *      path="/sensors/{uuid}/alerts",
+     *      operationId="getAlerts",
+     *      tags={"Sensors"},
+     *      summary="Get alerts of a sensor",
+     *      description="Returns alerts of a sensor",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="path",
+     *         description="Sensor UUID",
+     *         required=true,
+     *         explode=true,
+     *         @OA\Schema(
+     *              type="string"
+     *         )
+     *     ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found",
+     *      )
+     *     )
      */
     public function getAlerts($uuid)
     {
@@ -78,9 +152,53 @@ class SensorsController extends Controller
     }
 
     /**
-     * @param $uuid
-     * @param PostMeasurementRequest $request
-     * @return JsonResponse
+     * @OA\Post(
+     *      path="/sensors/{uuid}/measurements",
+     *      operationId="postMeasurement",
+     *      tags={"Sensors"},
+     *      summary="Post measurement for a given sensor",
+     *      description="Creates a measurement for a given sensor",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="path",
+     *         description="Sensor UUID",
+     *         required=true,
+     *         explode=true,
+     *         @OA\Schema(
+     *              type="string"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="co2",
+     *         in="query",
+     *         description="CO2 value of measurement",
+     *         required=true,
+     *         explode=true,
+     *         @OA\Schema(
+     *              type="integer"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="time",
+     *         in="query",
+     *         description="Time of measurement",
+     *         required=true,
+     *         explode=true,
+     *         @OA\Schema(
+     *              type="string",
+     *              format="date",
+     *              example="2022-05-17"
+     *         )
+     *     ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found",
+     *      )
+     *     )
      */
     public function createMeasurement($uuid, PostMeasurementRequest $request)
     {

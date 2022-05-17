@@ -1,0 +1,138 @@
+{
+	"info": {
+		"_postman_id": "a8e28b07-f549-48ad-b47d-4b72e9dee2bb",
+		"name": "MovingImage CC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PostMeasurement",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "co2",
+							"value": "1000",
+							"type": "default"
+						},
+						{
+							"key": "time",
+							"value": "2019-02-01T18:55:47+00:00",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{url}/sensors/1/measurements",
+					"host": [
+						"{url}"
+					],
+					"path": [
+						"sensors",
+						"1",
+						"measurements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetStatus",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://moving-cc.local/api/v1/sensors/1",
+					"protocol": "http",
+					"host": [
+						"moving-cc",
+						"local"
+					],
+					"path": [
+						"api",
+						"v1",
+						"sensors",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetMetrics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://moving-cc.local/api/v1/sensors/1/metrics",
+					"protocol": "http",
+					"host": [
+						"moving-cc",
+						"local"
+					],
+					"path": [
+						"api",
+						"v1",
+						"sensors",
+						"1",
+						"metrics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAlerts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://moving-cc.local/api/v1/sensors/1/alerts",
+					"protocol": "http",
+					"host": [
+						"moving-cc",
+						"local"
+					],
+					"path": [
+						"api",
+						"v1",
+						"sensors",
+						"1",
+						"alerts"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "moving-cc.local/api/v1",
+			"type": "default"
+		}
+	]
+}

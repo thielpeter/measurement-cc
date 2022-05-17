@@ -43,8 +43,8 @@ class PostMeasurementRequest extends FormRequest
     public function messages() //OPTIONAL
     {
         return [
-            'co2.required' => 'Email is required',
-            'time.required' => 'Time is required',
+            'co2.required' => 'CO2 value of measurement is required',
+            'time.required' => 'Time of measurement is required',
         ];
     }
 }

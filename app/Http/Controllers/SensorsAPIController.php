@@ -134,6 +134,10 @@ class SensorsAPIController extends Controller
         $sensor = Sensor::where(['uuid' => $uuid])->first();
         if ($sensor) {
 
+            if(!$sensor->alerts()->count()){
+                return response()->json('No alerts found', 404);
+            }
+
             $alertsMeasurements = [];
             foreach ($sensor->alertsMeasurements() as $key => $value) {
                 $alertsMeasurements['measurement' . ($key + 1)] = $value;
@@ -148,7 +152,7 @@ class SensorsAPIController extends Controller
             );
             return response()->json($data);
         }
-        return response()->json('No alerts found', 404);
+        return response()->json('No sensor found', 404);
     }
 
     /**
@@ -222,14 +226,14 @@ class SensorsAPIController extends Controller
         }
 
         $this->checkStatus($sensor);
-        $this->alertsController->checkAlert($uuid);
+//        $this->alertsController->checkAlert($uuid);
 
-        return response()->json('OK', 200);
+        return response()->json(['success' => 'success'], 200);
     }
 
     public function checkStatus(Sensor $sensor)
     {
-        if ($sensor->lastMeasurement()->co2 >= 2000) {
+        if ($sensor->status !== self::$STATUS_ALERT && $sensor->lastMeasurement()->co2 >= 2000) {
             try {
                 $sensor->status = self::$STATUS_WARN;
                 $sensor->save();

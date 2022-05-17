@@ -18,7 +18,7 @@ class Sensor extends Model
      */
     public function measurements()
     {
-        return $this->hasMany(Measurement::class, 'uuid');
+        return $this->hasMany(Measurement::class, 'uuid', 'uuid');
     }
 
     /**
@@ -27,7 +27,7 @@ class Sensor extends Model
      */
     public function firstAlertTime()
     {
-        return $this->alerts()->with('measurement')->get()->pluck('measurement.time')->first();
+        return $this->alerts()->count() ? $this->alerts()->with('measurement')->get()->pluck('measurement.time')->first() : '';
     }
 
     /**
@@ -36,7 +36,7 @@ class Sensor extends Model
      */
     public function lastAlertTime()
     {
-        return $this->alerts()->with('measurement')->get()->pluck('measurement.time')->last();
+        return $this->alerts()->count() ? $this->alerts()->with('measurement')->get()->pluck('measurement.time')->last() : '';
     }
 
     /**
@@ -45,7 +45,7 @@ class Sensor extends Model
      */
     public function alertsMeasurements()
     {
-        return $this->alerts()->with('measurement')->oldest()->get()->pluck('measurement.co2')->toArray();
+        return $this->alerts()->count() ? $this->alerts()->with('measurement')->oldest()->get()->pluck('measurement.co2')->toArray() : [];
     }
 
     /**
@@ -54,7 +54,7 @@ class Sensor extends Model
      */
     public function alerts()
     {
-        return $this->hasMany(Alert::class, 'uuid');
+        return $this->hasMany(Alert::class, 'uuid', 'uuid');
     }
 
     /**
@@ -63,7 +63,7 @@ class Sensor extends Model
      */
     public function avgLast30Days()
     {
-        return $this->measurements()->where('created_at', '>', now()->subDays(30)->endOfDay())->pluck('co2')->avg();
+        return $this->measurements()->where('time', '>', now()->subDays(30)->endOfDay())->pluck('co2')->avg();
     }
 
     /**
@@ -72,7 +72,7 @@ class Sensor extends Model
      */
     public function maxLast30Days()
     {
-        return $this->measurements()->where('created_at', '>', now()->subDays(30)->endOfDay())->pluck('co2')->max();
+        return $this->measurements()->where('time', '>', now()->subDays(30)->endOfDay())->pluck('co2')->max();
     }
 
     /**
@@ -81,7 +81,7 @@ class Sensor extends Model
      */
     public function lastMeasurement()
     {
-        return $this->measurements()->latest()->first();
+        return $this->measurements()->latest('time')->first();
     }
 
     /**
@@ -90,6 +90,6 @@ class Sensor extends Model
      */
     public function lastMeasurements()
     {
-        return $this->measurements()->latest()->take(3)->get()->pluck('co2')->toArray();
+        return $this->measurements()->latest('time')->take(3)->get()->pluck('co2')->toArray();
     }
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('co2');
             $table->string('uuid');
-            $table->date('time');
+            $table->dateTime('time');
             $table->timestamps();
         });
     }

@@ -19,10 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix' => '/v1'], function () {
-//Route::group(['prefix' => '/v1', 'middleware' => 'throttle:1,1'], function () {
+Route::group(['prefix' => '/v1', 'middleware' => 'throttle:1,1'], function () {
 
-    Route::post('/sensors/{uuid}/measurements', [SensorsAPIController::class, 'createMeasurement']);
+    Route::post('/sensors/{uuid}/measurements', [SensorsAPIController::class, 'handlePostMeasurement']);
 
 });
 

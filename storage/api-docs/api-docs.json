@@ -14,7 +14,7 @@
     },
     "servers": [
         {
-            "url": "http://moving-cc.local/api/v1",
+            "url": "//moving-cc.local/api/v1",
             "description": "movingimage CC API Server"
         }
     ],

@@ -20,3 +20,6 @@ For evaluation use:
 - Run Tests with "php artisan test"
 
 Looking forward to your feedback at thiel.peter@gmail.com
+
+## Notes
+As required the endpoint POST /sensors/{uuid}/measurements is throttled to 1 request per minute

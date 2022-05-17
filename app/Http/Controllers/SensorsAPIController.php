@@ -4,22 +4,18 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\PostMeasurementRequest;
-use App\Models\Alert;
+use App\Http\Services\SensorService;
 use App\Models\Measurement;
 use App\Models\Sensor;
 use Illuminate\Http\JsonResponse;
 
 class SensorsAPIController extends Controller
 {
-    private $alertsController;
+    private $sensorService;
 
-    private static $STATUS_OK = 'OK';
-    private static $STATUS_WARN = 'WARN';
-    private static $STATUS_ALERT = 'ALERT';
-
-    public function __construct(AlertsController $alertsController)
+    public function __construct(SensorService $sensorService)
     {
-        $this->alertsController = $alertsController;
+        $this->sensorService = $sensorService;
     }
 
     /**
@@ -48,6 +44,8 @@ class SensorsAPIController extends Controller
      *          description="Not found",
      *      )
      *     )
+     * @param $uuid
+     * @return JsonResponse
      */
     public function getStatus($uuid)
     {
@@ -86,6 +84,8 @@ class SensorsAPIController extends Controller
      *          description="Not found",
      *      )
      *     )
+     * @param $uuid
+     * @return JsonResponse
      */
     public function getMetrics($uuid)
     {
@@ -128,13 +128,15 @@ class SensorsAPIController extends Controller
      *          description="Not found",
      *      )
      *     )
+     * @param $uuid
+     * @return JsonResponse
      */
     public function getAlerts($uuid)
     {
         $sensor = Sensor::where(['uuid' => $uuid])->first();
         if ($sensor) {
 
-            if(!$sensor->alerts()->count()){
+            if (!$sensor->alerts()->count()) {
                 return response()->json('No alerts found', 404);
             }
 
@@ -203,15 +205,18 @@ class SensorsAPIController extends Controller
      *          description="Not found",
      *      )
      *     )
+     * @param $uuid
+     * @param PostMeasurementRequest $request
+     * @return JsonResponse
      */
-    public function createMeasurement($uuid, PostMeasurementRequest $request)
+    public function handlePostMeasurement($uuid, PostMeasurementRequest $request)
     {
         try {
             $sensor = Sensor::firstOrCreate(
                 ['uuid' => $uuid],
                 [
                     'uuid' => $uuid,
-                    'status' => self::$STATUS_OK
+                    'status' => config("constants.STATUS_OK")
                 ]
             );
         } catch (\Exception $e) {
@@ -225,48 +230,14 @@ class SensorsAPIController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
-        $this->checkStatus($sensor);
-//        $this->alertsController->checkAlert($uuid);
+        try {
+            $this->sensorService->checkStatus($sensor);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
 
         return response()->json(['success' => 'success'], 200);
     }
 
-    public function checkStatus(Sensor $sensor)
-    {
-        if ($sensor->status !== self::$STATUS_ALERT && $sensor->lastMeasurement()->co2 >= 2000) {
-            try {
-                $sensor->status = self::$STATUS_WARN;
-                $sensor->save();
-            } catch (\Exception $e) {
-                return response()->json(['error' => $e->getMessage()], 500);
-            }
-        }
 
-        $lastMeasurements = $sensor->lastMeasurements();
-        $highMeasurements = array_filter($lastMeasurements, function ($measurement) {
-            return $measurement >= 2000;
-        });
-        $lowMeasurements = array_filter($lastMeasurements, function ($measurement) {
-            return $measurement < 2000;
-        });
-        if (count($highMeasurements) >= 3) {
-            try {
-                $sensor->status = self::$STATUS_ALERT;
-                $sensor->save();
-            } catch (\Exception $e) {
-                return response()->json(['error' => $e->getMessage()], 500);
-            }
-        } else if (count($lowMeasurements) === 3) {
-            try {
-                $sensor->status = self::$STATUS_OK;
-                $sensor->save();
-            } catch (\Exception $e) {
-                return response()->json(['error' => $e->getMessage()], 500);
-            }
-        }
-
-        if ($sensor->status === self::$STATUS_ALERT) {
-            Alert::create(['uuid' => $sensor->uuid, 'measurement_id' => $sensor->lastMeasurement()->id]);
-        }
-    }
 }
